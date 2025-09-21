@@ -12,8 +12,8 @@ try:
     
     # Clean data
     df = df.drop(['Name', 'Ticket', 'Cabin'], axis=1)
-    df['Age'].fillna(df['Age'].median(), inplace=True)
-    df['Embarked'].fillna(df['Embarked'].mode()[0], inplace=True)
+    df['Age'] = df['Age'].fillna(df['Age'].median())
+    df['Embarked'] = df['Embarked'].fillna(df['Embarked'].mode()[0])
     df['Sex'] = df['Sex'].map({'male': 1, 'female': 0})
     df['Embarked'] = df['Embarked'].map({'S': 0, 'C': 1, 'Q': 2})
     
