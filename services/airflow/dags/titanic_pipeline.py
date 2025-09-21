@@ -29,8 +29,29 @@ def model_engineering():
     subprocess.run(['python', 'code/models/train_model.py'], check=True)
 
 def deployment():
+    import time
     os.chdir('/opt/airflow/workspace/code/deployment')
-    subprocess.run(['docker-compose', 'up', '--build', '-d'], check=True)
+    
+    # Остановим существующие контейнеры если они есть
+    try:
+        subprocess.run(['docker-compose', 'down'], check=False)
+        time.sleep(2)
+    except Exception as e:
+        print(f"Warning: Could not stop existing containers: {e}")
+    
+    # Пересоберем и запустим контейнеры
+    try:
+        subprocess.run(['docker-compose', 'up', '--build', '-d', '--remove-orphans'], check=True)
+        time.sleep(5)
+        
+        # Проверим что контейнеры запустились
+        result = subprocess.run(['docker-compose', 'ps'], capture_output=True, text=True)
+        print("Container status:")
+        print(result.stdout)
+        
+    except subprocess.CalledProcessError as e:
+        print(f"Deployment failed: {e}")
+        raise
 
 # Tasks
 data_task = PythonOperator(

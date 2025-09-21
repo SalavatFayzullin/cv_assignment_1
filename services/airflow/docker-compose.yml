@@ -11,7 +11,8 @@ services:
       - postgres_db_volume:/var/lib/postgresql/data
 
   airflow-webserver:
-    image: apache/airflow:2.7.0
+    build: .
+    image: custom-airflow:latest
     depends_on:
       - postgres
     environment:
@@ -27,9 +28,12 @@ services:
     ports:
       - "8080:8080"
     command: webserver
+    user: "50000:0"
+    privileged: true
 
   airflow-scheduler:
-    image: apache/airflow:2.7.0
+    build: .
+    image: custom-airflow:latest
     depends_on:
       - postgres
     environment:
@@ -40,6 +44,8 @@ services:
       - ../../:/opt/airflow/workspace
       - /var/run/docker.sock:/var/run/docker.sock
     command: scheduler
+    user: "50000:0"
+    privileged: true
 
 volumes:
   postgres_db_volume:
