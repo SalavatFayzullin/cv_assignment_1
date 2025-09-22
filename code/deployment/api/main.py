@@ -2,12 +2,23 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import pickle
 import pandas as pd
+import os
 
 app = FastAPI()
 
-# Load model
-with open('/app/models/titanic_model.pkl', 'rb') as f:
-    model = pickle.load(f)
+# Global variable for model
+model = None
+
+def load_model():
+    global model
+    if model is None:
+        model_path = '/app/models/titanic_model.pkl'
+        if os.path.exists(model_path):
+            with open(model_path, 'rb') as f:
+                model = pickle.load(f)
+        else:
+            raise FileNotFoundError(f"Model file not found at {model_path}")
+    return model
 
 class PassengerData(BaseModel):
     pclass: int
@@ -20,6 +31,8 @@ class PassengerData(BaseModel):
 
 @app.post("/predict")
 def predict(data: PassengerData):
+    model = load_model()  # Load model lazily
+    
     # Map to correct column names
     input_data = pd.DataFrame([{
         'PassengerId': 0,  # Dummy value
