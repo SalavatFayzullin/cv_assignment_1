@@ -3,9 +3,11 @@ FROM apache/airflow:2.7.0
 # Switch to root to install system packages
 USER root
 
-# Install Docker CLI and requirements
+# Install Docker CLI and docker-compose
 RUN apt-get update && \
     apt-get install -y docker.io curl && \
+    curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
+    chmod +x /usr/local/bin/docker-compose && \
     rm -rf /var/lib/apt/lists/*
 
 # Add airflow user to docker group
