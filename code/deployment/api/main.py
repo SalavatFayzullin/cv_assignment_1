@@ -33,9 +33,8 @@ class PassengerData(BaseModel):
 def predict(data: PassengerData):
     model = load_model()  # Load model lazily
     
-    # Map to correct column names
+    # Create input DataFrame with only the features the model was trained on
     input_data = pd.DataFrame([{
-        'PassengerId': 0,  # Dummy value
         'Pclass': data.pclass,
         'Sex': data.sex,
         'Age': data.age,

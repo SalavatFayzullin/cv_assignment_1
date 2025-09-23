@@ -10,12 +10,14 @@ print("Starting model training...")
 train_df = pd.read_csv('data/processed/train.csv')
 test_df = pd.read_csv('data/processed/test.csv')
 
-X_train = train_df.drop('Survived', axis=1)
+# Remove PassengerId as it's not a useful feature for prediction
+X_train = train_df.drop(['Survived', 'PassengerId'], axis=1)
 y_train = train_df['Survived']
-X_test = test_df.drop('Survived', axis=1)
+X_test = test_df.drop(['Survived', 'PassengerId'], axis=1)
 y_test = test_df['Survived']
 
 print(f"Training data shape: {X_train.shape}")
+print(f"Features: {X_train.columns.tolist()}")
 
 # Train model
 model = RandomForestClassifier(n_estimators=100, random_state=42)
