@@ -2,10 +2,13 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY requirements.txt .
+COPY code/deployment/api/requirements.txt .
 RUN pip install -r requirements.txt
 
-COPY main.py .
+RUN mkdir -p /app/models
+COPY models/titanic_model.pkl /app/models/titanic_model.pkl
+
+COPY code/deployment/api/main.py .
 
 EXPOSE 8000
 

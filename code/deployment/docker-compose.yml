@@ -2,11 +2,11 @@ version: '3.8'
 
 services:
   api:
-    build: ./api
+    build:
+      context: ../..
+      dockerfile: code/deployment/api/Dockerfile
     ports:
       - "8000:8000"
-    volumes:
-      - ${PROJECT_ROOT}/models:/app/models
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s
