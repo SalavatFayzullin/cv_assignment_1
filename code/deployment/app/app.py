@@ -33,8 +33,8 @@ if st.button("Predict Survival"):
         result = response.json()
         
         if result["survived"]:
-            st.success(f"✅ Survived! (Probability: {result['probability']:.2%})")
+            st.success(f"Survived! (Probability: {result['probability']:.2%})")
         else:
-            st.error(f"❌ Did not survive (Probability: {result['probability']:.2%})")
+            st.error(f"Did not survive (Probability: {result['probability']:.2%})")
     except:
         st.error("API connection failed")

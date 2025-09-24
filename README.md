@@ -12,9 +12,9 @@ python code/models/train_model.py
 cd code/deployment
 docker-compose up -d
 
-# 1.1
+# 2.1
 cd services/airflow
 docker-compose up -d --build
 
-# 1.2 Check status
+# 2.2 Check status
 docker-compose ps
