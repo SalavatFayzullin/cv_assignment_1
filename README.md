@@ -14,8 +14,7 @@ docker-compose up -d
 
 # 1.1
 cd services/airflow
-docker-compose build airflow-base
-docker-compose up -d
+docker-compose up -d --build
 
 # 1.2 Check status
 docker-compose ps
